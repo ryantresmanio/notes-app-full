@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #9FB3DF;
+}
+.App {
+  text-align: center;
+}
+
+
+.notes-container {
+  margin-top: 50px;
+}
+
+.notes-wrapper {
+  padding: 30px;
+  margin: auto 100px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.header {
+  width: 100%;
+  background-color: #F2F2F2;
+  padding: 10px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 5px 0 4px;
+  font-size: 40px;
+}
+
+.header p {
+  font-style: italic;
+  margin: 0;
+}
+
+.add-container {
+  padding: 30px;
+  margin-top: 50px;
+}
+
+.note-form-paper {
+  padding: 16px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.note-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.input-title {
+  flex: 1;
+  min-width: 200px;
+}
+
+.input-content {
+  flex: 2;
+  min-width: 300px;
+  margin-top: 20px;
+}
+
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.card-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  gap: 16px;
+}
+
+.card-selected {
+  background-color: rgba(0, 0, 255, 0.1); /* light blue highlight */
+}
+
+.card-selected:hover {
+  background-color: rgba(0, 0, 255, 0.15);
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
