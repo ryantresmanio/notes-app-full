@@ -16,7 +16,7 @@ function Add() {
     e.preventDefault();
     const note = { title: noteTitle, noteContent };
 
-    fetch("https://notes-app-tres.onrender.com/notes", {
+    fetch('https://notes-3j0d.onrender.com/api/notes', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(note)
