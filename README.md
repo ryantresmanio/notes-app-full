@@ -30,7 +30,7 @@ Backend GitHub Repository: [https://github.com/ryantresmanio/notes-app-backend.g
 > - **Cold starts**: The server "sleeps" when inactive, causing the first request to take up to 30 seconds to respond.
 > - **Limited resources**: Occasional slow performance or timeouts during high traffic or load.
 > - **Intermittent downtime**: The free tier may experience short outages or redeployments without warning.
-- No login or auth — purely for practice and learning.
+> -  No login or auth — purely for practice and learning.
 
 
 **What I Learned**
