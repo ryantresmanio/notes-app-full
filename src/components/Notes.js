@@ -10,6 +10,7 @@ function Notes() {
   const [notes, setNotes] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState(null); 
 
   const open = Boolean(anchorEl);
 
@@ -23,6 +24,33 @@ function Notes() {
       .catch(error => console.error('Error fetching notes:', error));
   }, []);
 
+  // Delete the note after the menu closes
+  useEffect(() => {
+    // When menu closes (anchorEl === null) and there's a pending delete ID
+    if (!anchorEl && pendingDeleteId) {
+      fetch(`https://notes-3j0d.onrender.com/api/notes/${pendingDeleteId}`, {
+        method: 'DELETE',
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to delete note');
+          }
+          return fetch('https://notes-3j0d.onrender.com/api/notes');
+        })
+        .then(res => res.json())
+        .then(data => {
+          setNotes(data);
+          setPendingDeleteId(null);
+          setSelectedNoteId(null);
+        })
+        .catch(error => {
+          console.error('Error deleting note:', error);
+          setPendingDeleteId(null);
+          setSelectedNoteId(null);
+        });
+    }
+  }, [anchorEl, pendingDeleteId]);
+
   const handleMenuOpen = (event, noteId) => {
     setAnchorEl(event.currentTarget);
     setSelectedNoteId(noteId);
@@ -30,43 +58,29 @@ function Notes() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    setSelectedNoteId(null);
+    // Don't clear selectedNoteId here, we need it after menu closes for delete
   };
 
- const handleDelete = () => {
-  if (!selectedNoteId) return;
-
-  fetch(`https://notes-3j0d.onrender.com/api/notes/${selectedNoteId}`, {
-    method: 'DELETE',
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to delete note');
-      }
-
-      return fetch('https://notes-3j0d.onrender.com/api/notes');
-    })
-    .then(res => res.json())
-    .then(data => {
-      setNotes(data); // update state with new notes list
-      handleMenuClose();
-    })
-    .catch(error => {
-      console.error('Error deleting note:', error);
-      handleMenuClose();
-    });
-};
+  // set the pending delete ID and close the menu
+  const handleDeleteClick = () => {
+    if (!selectedNoteId) return;
+    setPendingDeleteId(selectedNoteId);
+    handleMenuClose();
+  };
 
   return (
     <div style={{ marginTop: '50px' }}>
-      <div className="notes-wrapper" style={{
-        padding: '30px',
-        margin: 'auto 100px',
-        display: 'flex',
-        gap: '15px',
-        flexWrap: 'wrap',
-        justifyContent: 'center'
-      }}>
+      <div
+        className="notes-wrapper"
+        style={{
+          padding: '30px',
+          margin: 'auto 100px',
+          display: 'flex',
+          gap: '15px',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
+      >
         {notes.map(note => (
           <Paper
             key={note.id}
@@ -77,13 +91,13 @@ function Notes() {
               maxWidth: '300px',
               minWidth: '300px',
               flex: '1 1 200px',
-              position: 'relative' // for positioning the 3-dot button
+              position: 'relative', 
             }}
           >
-            {/* 3-dot menu button */}
+      
             <IconButton
               aria-label="more"
-              onClick={(e) => handleMenuOpen(e, note.id)}
+              onClick={e => handleMenuOpen(e, note.id)}
               style={{ position: 'absolute', top: '5px', right: '5px' }}
             >
               <MoreVertIcon />
@@ -95,21 +109,8 @@ function Notes() {
         ))}
       </div>
 
-      {/* Menu that appears on 3-dot click */}
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleMenuClose}
-      >
-          <MenuItem
-  onClick={() => {
-    setTimeout(() => {
-      handleDelete();
-    }, 0); // small delay to allow proper focus handling
-  }}
->
-  Delete
-</MenuItem>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+        <MenuItem onClick={handleDeleteClick}>Delete</MenuItem>
       </Menu>
     </div>
   );
