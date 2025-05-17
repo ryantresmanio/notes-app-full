@@ -14,7 +14,7 @@ function Notes() {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    fetch('https://notes-app-tres.onrender.com/notes')
+    fetch('https://notes-3j0d.onrender.com/api/notes')
       .then(response => {
         if (!response.ok) throw new Error('Network response was not ok');
         return response.json();
@@ -36,15 +36,15 @@ function Notes() {
  const handleDelete = () => {
   if (!selectedNoteId) return;
 
-  fetch(`https://notes-app-tres.onrender.com/notes/${selectedNoteId}`, {
+  fetch(`https://notes-3j0d.onrender.com/api/notesnotes/${selectedNoteId}`, {
     method: 'DELETE',
   })
     .then(response => {
       if (!response.ok) {
         throw new Error('Failed to delete note');
       }
-      // Option 1: Re-fetch the updated notes list
-      return fetch('https://notes-app-tres.onrender.com/notes');
+
+      return fetch('https://notes-3j0d.onrender.com/api/notes');
     })
     .then(res => res.json())
     .then(data => {
