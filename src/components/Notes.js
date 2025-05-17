@@ -36,7 +36,7 @@ function Notes() {
  const handleDelete = () => {
   if (!selectedNoteId) return;
 
-  fetch(`https://notes-3j0d.onrender.com/api/notesnotes/${selectedNoteId}`, {
+  fetch(`https://notes-3j0d.onrender.com/api/notes/${selectedNoteId}`, {
     method: 'DELETE',
   })
     .then(response => {
