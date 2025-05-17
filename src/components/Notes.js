@@ -101,7 +101,15 @@ function Notes() {
         open={open}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+          <MenuItem
+  onClick={() => {
+    setTimeout(() => {
+      handleDelete();
+    }, 0); // small delay to allow proper focus handling
+  }}
+>
+  Delete
+</MenuItem>
       </Menu>
     </div>
   );
